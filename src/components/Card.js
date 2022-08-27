@@ -1,7 +1,8 @@
-import React from "react";
-import Book from "../assets/images/book.jpg";
+import React, { useState } from "react";
+import Modal from "./Modal";
 const Card = ({ book }) => {
-  console.log(book);
+  const [show, setShow] = useState(false);
+  const [bookItem, setItem] = useState();
   return (
     <>
       {book.map((item) => {
@@ -12,13 +13,24 @@ const Card = ({ book }) => {
         if (thumbnail !== undefined) {
           return (
             <>
-              <div className="card">
-                <img src={thumbnail} alt="" />
+              <div
+                className="card"
+                onClick={() => {
+                  setShow(true);
+                  setItem(item);
+                }}
+              >
+                <img key={item.id} src={thumbnail} alt="" />
                 <div className="bottom">
                   <h3 className="title">{item.volumeInfo.title}</h3>
                   <p className="amount">${amount}</p>
                 </div>
               </div>
+              <Modal
+                show={show}
+                item={bookItem}
+                onClose={() => setShow(false)}
+              />
             </>
           );
         }
